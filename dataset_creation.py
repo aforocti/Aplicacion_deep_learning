@@ -3,7 +3,9 @@ import pandas as pd
 import csv
 
 reportFile = "report.txt"
-csvFile = "dataset.csv"
+report2File = "report2.txt"
+csvFile = "dataset_with_NA.csv"
+#csvFile = "dataset.csv"
 
 txt1 = "----------------- ---------------- ------------- ------------------"
 txt2 = "MAC Address       AP Name          Status        Username                        "
@@ -11,9 +13,10 @@ txt3 = ""
 txt4 = " "
 
 f = open(reportFile)
+f2 = open(report2File)
 dataset = []
 
-for line in f.readlines():
+for line in f.readlines() + f2.readlines():
     spt = line.strip().split(",")
     if txt1 in spt:
         spt.remove(txt1)
@@ -23,6 +26,7 @@ for line in f.readlines():
         spt.remove(txt3)
     if txt4 in spt:
         spt.remove(txt4)
+    
     date = spt[0]
     hour = spt[1]
     for client in spt[2:]:
@@ -32,7 +36,11 @@ for line in f.readlines():
         mac_address = data[0]
         ap = data[1]
         username = data[3]
+        
+        #For creation with N/A
         dataset.append([date,hour,username,mac_address,ap])
+        #if(username != "N/A"):
+        #    dataset.append([date,hour,username,mac_address,ap])
 
 f.close()
 dataframe = pd.DataFrame(dataset)

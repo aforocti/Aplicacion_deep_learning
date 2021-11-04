@@ -45,3 +45,17 @@ Su estructura es la siguiente:
 Fecha de censo,Hora de censo,Nombre de usuario,MAC Address, Access Point
 ```
 ## Fase 3 - Creación de modelo
+Una vez creado los archivos, seguiremos el análisis de estos para encontrar asociaciones entre el username y la Mac Address de los dispositivos. Esto se lo realizara a traves de una tecnica de aprendizaje maquina no supervisado, que permite la asociación de elementos a partir del analisis de datos. Mas especificamente usaremos el algoritmo apriori que a partir de conjuntos de datos, determina reglas de asociación entre los datos que nosotros le entregemos.
+
+Una vez realizado el análisis la regla de asociación se mostraran de la siguiente manera:
+
+```
+Rule: A -> B
+Support: 0.061261754770382544
+Confidence: 0.02017712042362823
+Lift: 8.885613845321796
+```
+
+La implementación, explicación y analisis de resultados los encontrara en siguiente archivo:
+
+    > ml_analysis.ipynb
