@@ -5,7 +5,7 @@
 
     > show client summary username
 
-que proporciona la siguiente información:</p>
+Este comando se realiza cada 30 segundos y proporciona la siguiente información:</p>
 
 <center>
 
@@ -42,8 +42,22 @@ Para su posterior analisis, se ha guardado esta información en un archivo csv:
 
 Su estructura es la siguiente: 
 ```
-Fecha de censo,Hora de censo,Nombre de usuario,MAC Address, Access Point
+Fecha y Hora de censo,Nombre de usuario,MAC Address, Access Point
 ```
+
+Como ejemplo tenemos:
+
+|   |       DateTime      |    Username      |     MacAddress    | AccessPoint  |
+|:-:|:-------------------:|:----------------:|:-----------------:|:------------:|
+| 1 | 2021-10-17 23:23:39 | caril.martinez   | 9c:b6:d0:10:22:6d | Domo_Teleco2 |
+| 2 | 2021-10-17 23:23:39 | fernando.campana | ac:af:b9:33:65:e8 | Domo_Teleco1 |
+
+
+Datetime: Muestra la fecha y hora que se realizo el registro.
+Username: Muestra el nombre de usuario de la persona que estaba autenticada en ese momento en ese dispositivo
+MacAddress: Muestra la MacAddress del dispositivo conectado a la red.
+AccessPoint: Indica a que Access Point estaba conectado ese dispositivo.
+
 ## Fase 3 - Creación de modelo
 Una vez creado los archivos, seguiremos el análisis de estos para encontrar asociaciones entre el username y la Mac Address de los dispositivos. Esto se lo realizara a traves de una tecnica de aprendizaje maquina no supervisado, que permite la asociación de elementos a partir del analisis de datos. Mas especificamente usaremos el algoritmo apriori que a partir de conjuntos de datos, determina reglas de asociación entre los datos que nosotros le entregemos.
 
@@ -56,6 +70,56 @@ Confidence: 0.02017712042362823
 Lift: 8.885613845321796
 ```
 
-La implementación, explicación y analisis de resultados los encontrara en siguiente archivo:
+## Algoritmo Apriori
+Este algoritmo fue desarrollado por R. Agrawal y R. Srikant en 1994 para poder encontrar conjuntos de item frecuentes dentro de un dataset para crear reglas de asociaciones. [1] [2]
 
-    > ml_analysis.ipynb
+Esta es una tecnica muy usada dentro de la mineria de datos para encontrar relaciones desconocidas, produciendo resultados que pueden ser usados en toma de decisiones o predicciones. Una de sus deventajas es el tiempo que toma en procesar toda la información del dataset.[2]
+
+Al finalizar el analisis se mostrara la siguiente información:
+
+```
+Rule: A -> B
+Support: 0.061261754770382544
+Confidence: 0.02017712042362823
+Lift: 8.885613845321796
+```
+
+### Rule: 
+
+    Regla de asociación A -> B
+
+### Support: 
+Porcentaje de conjuntos donde la regla fue verdadera (Frecuencia donde A estaba asociada a B)
+
+Con esta medida podemos definir que elementos se tomaran en cuenta y cuales no para nuestras reglas de asociación.
+
+Cuando realizamos nuestro algoritmo este nos pide un valor minimo de soporte para que un elemento lo consideremos frecuente o no.
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;Support = \frac{freq(A,B)}{N}" title="Support Equation" />
+
+Confidence: Porcentaje en el que la regla es verdadera, solo cuando el elemento A ocurre. (Que tan seguido A y B aparecen juntos basado en el numero de ocurrencias de A) 
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;Confidence = \frac{freq(A,B)}{freq(A)}" title="Support Equation" />
+
+### Lift:
+Mide cuan mas frecuente A es encontrada con B en comparación a cuando no esta B.
+
+Permite identificar reglas engañosas. Esta funciona como la fortaleza de una regla.
+
+Su formula se describe de la siguiente manera: 
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;Lift = \frac{Support(A,B)}{Support(A)xSupport(B)}" title="Support Equation" />
+
+O tambien se la escribe en terminos de la confianza:
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;Lift = \frac{Confidence(A,B)}{Support(B)}" title="Support Equation" />
+
+Si el soporte de B es mayor a la confianza de la regla, entonces esa regla es engañosa y debe ser descartada.
+
+# Referencias
+[1] GeeksforGeeks. 2021. Apriori Algorithm - GeeksforGeeks. [online] Available at: <https://www.geeksforgeeks.org/apriori-algorithm/> [Accessed 3 November 2021].
+
+[2] Y.-K. Woon, W.-K. Ng, y A. Das, «Fast online dynamic association rule mining», en Proceedings of the Second International Conference on Web Information Systems Engineering, dic. 2001, vol. 1, pp. 278-287 vol.1. doi: 10.1109/WISE.2001.996489.
+
+
+[3] M. Al-Maolegi en B. Arkok, “An improved Apriori algorithm for association rules”, arXiv preprint arXiv:1403. 3948, 2014. 

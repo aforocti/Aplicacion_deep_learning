@@ -27,8 +27,10 @@ for line in f.readlines() + f2.readlines():
     if txt3 in spt:
         spt.remove(txt3)
     if txt4 in spt:
-        spt.remove(txt4)
+        spt.remove(txt4)   
+
     
+    #Eliminar espacio en archivo.
     dateTime = date_time_obj = datetime.datetime.strptime(spt[0]+" "+spt[1], '%d/%m/%Y %H:%M:%S')
 
     for client in spt[2:]:
@@ -52,7 +54,7 @@ for line in f.readlines() + f2.readlines():
 
 f.close()
 dataframe = pd.DataFrame(dataset)
-dataframe.columns = ["DateTime","Username","Mac Address","Access_Point"]
+dataframe.columns = ["DateTime","Username","MacAddress","AccessPoint"]
 dataframe.to_csv(csvFile, index=False)
 print(dataframe)
 print(dataframe.groupby("Username")["Username"].count())
