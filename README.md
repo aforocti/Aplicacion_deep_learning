@@ -116,6 +116,24 @@ O tambien se la escribe en terminos de la confianza:
 
 Si el soporte de B es mayor a la confianza de la regla, entonces esa regla es engañosa y debe ser descartada.
 
+## Pruebas
+Para las pruebas de las reglas de asociación se han desarrollado 8 pruebas, usando un dataset a corte del 14/12/2021, con 145701 registros. Las pruebas se las describe en el siguiente cuadro:
+
+Porcentaje Train: Porcentaje del dataset usado para 
+
+| Pruebas | Porcetaje Train | Porcentaje Test | Registros del test | Tiempo Apriori | Reglas | Efectividad |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Prueba 1  | 20 | 80 | 116561 | 1029 uS | 20 | 76.36 |
+| Prueba 2  | 50 | 50 | 72851 | 4999 uS | 24 | 89.82 |
+| Prueba 3  | 70 | 30 | 43710 | 8031 uS | 23 | 85.57 |
+| Prueba 4  | 80 | 20 | 29140 | 8002 uS | 23 | 78.38 |
+| Prueba 5 | 95 | 5 | 7258 | 9991 uS | 28 | 55.35 |
+| Prueba 6 | 98 | 2 | 2914 | 11989 uS | 30 | 90.08 |
+| Prueba 7 | 99 | 1 | 1457 | 9999 uS | 30 | 80.16 |
+| Prueba 8 | 99.5 | 0.5 | 729 | 11989 uS | 31 | 100 |
+
+
+
 # Referencias
 [1] GeeksforGeeks. 2021. Apriori Algorithm - GeeksforGeeks. [online] Available at: <https://www.geeksforgeeks.org/apriori-algorithm/> [Accessed 3 November 2021].
 

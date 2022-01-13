@@ -3,10 +3,19 @@ import pandas as pd
 import csv
 import datetime
 
+def getOnlyUsername(word):
+    if "\\" in word:
+        username = word.split("\\")[1]
+    elif "@" in word:
+        username = word.split("@")[0]
+    else: 
+        username = word
+    return username
+
 reportFile = "report.txt"
 report2File = "report2.txt"
 #csvFile = "dataset_with_NA.csv"
-csvFile = "dataset.csv"
+csvFile = "dataset_usernames_corrected.csv"
 
 txt1 = "----------------- ---------------- ------------- ------------------"
 txt2 = "MAC Address       AP Name          Status        Username                        "
@@ -29,8 +38,7 @@ for line in f.readlines() + f2.readlines():
     if txt4 in spt:
         spt.remove(txt4)   
 
-    
-    #Eliminar espacio en archivo.
+    #Eliminar espacio en archivo. 26.10.2021
     dateTime = date_time_obj = datetime.datetime.strptime(spt[0]+" "+spt[1], '%d/%m/%Y %H:%M:%S')
 
     for client in spt[2:]:
@@ -46,15 +54,18 @@ for line in f.readlines() + f2.readlines():
             username = "N/A"
         else:
             username = data[3]
+            username = getOnlyUsername(username)
 
         #For creation with N/A
-        #dataset.append([date,hour,username,mac_address,ap])
+        #dataset.append([date,hour,username,mac_address,ap]) 
         if(username != "N/A"):
             dataset.append([dateTime,username,mac_address,ap])
 
 f.close()
+f2.close()
 dataframe = pd.DataFrame(dataset)
 dataframe.columns = ["DateTime","Username","MacAddress","AccessPoint"]
+dataframe = dataframe.sort_values(by='DateTime')
 dataframe.to_csv(csvFile, index=False)
 print(dataframe)
 print(dataframe.groupby("Username")["Username"].count())
